@@ -27,7 +27,7 @@ const Navbar = () => {
           <CustomButton text='Sign In' />
           <button 
             type='button' 
-            className="bg-orange-500 rounded-full bg-white min-w-[130px] py-2 px-4"
+            className="bg-orange-200 rounded-full bg-red min-w-[130px] py-2 px-4"
           >
             Sign Up
           </button>

@@ -29,9 +29,9 @@ const handleScroll = () => {
         </div>
         <div className="hero__image-container">
           <div className="hero__image">
-            <Image src="/orange.svg" alt="orange background" fill className="object-contain absolute top-0 left-0 z-0 -translate-y-7 translate-x-16"
+            <Image src="/orange.svg" alt="orange background" fill className="object-contain absolute top-0 left-0 z-0 -translate-y-7 translate-x-15"
   />
-            <Image src="/car.svg" alt="car" fill className="object-contain absolute top-0 left-0 z-0 -translate-y-5"/>
+            <Image src="/car.svg" alt="car" fill className="object-contain absolute top-0 left-0 z-0 -translate-y-5 -translate-x-17"/>
             
 
           </div>
