@@ -1,18 +1,20 @@
-import { fetchCars } from "@/utils";
-import { HomeProps } from "@/types";
-import { fuels, yearsOfProduction } from "@/constants";
 import { CarCard, ShowMore, SearchBar, CustomFilter, Hero } from "@/components";
+import { fuels, yearsOfProduction } from "@/constants";
 
-export default async function Home({ searchParams }: HomeProps) {
-  const allCars = await fetchCars({
-    manufacturer: searchParams.manufacturer || "",
-    year: searchParams.year || 2022,
-    fuel: searchParams.fuel || "",
-    limit: searchParams.limit || 10,
-    model: searchParams.model || "",
-  });
+export default async function Home({ searchParams }: any) {
+  const headers: HeadersInit = {
+    "X-RapidAPI-Key": process.env.NEXT_PUBLIC_RAPIDAPI_KEY || "hrjavascript-mastery",
+    "X-RapidAPI-Host": "cars-by-api-ninjas.p.rapidapi.com",
+  };
 
-  const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars;
+  const response = await fetch(
+    `https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?make=${searchParams.manufacturer || "audi"}&year=${searchParams.year || 2020}&fuel_type=${searchParams.fuel || "gas"}&limit=${searchParams.limit || 10}&model=${searchParams.model || ""}`,
+    { headers }
+  );
+
+  const allCars = await response.json();
+
+  const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1;
 
   return (
     <main className='overflow-hidden'>
@@ -21,12 +23,11 @@ export default async function Home({ searchParams }: HomeProps) {
       <div className='mt-12 padding-x padding-y max-width' id='discover'>
         <div className='home__text-container'>
           <h1 className='text-4xl font-extrabold'>Car Catalogue</h1>
-          <p>Explore out cars you might like</p>
+          <p>Explore our cars you might like</p>
         </div>
 
         <div className='home__filters'>
           <SearchBar />
-
           <div className='home__filter-container'>
             <CustomFilter title='fuel' options={fuels} />
             <CustomFilter title='year' options={yearsOfProduction} />
@@ -36,8 +37,8 @@ export default async function Home({ searchParams }: HomeProps) {
         {!isDataEmpty ? (
           <section>
             <div className='home__cars-wrapper'>
-              {allCars?.map((car) => (
-                <CarCard car={car} />
+              {allCars.map((car: any, index: number) => (
+                <CarCard key={index} car={car} />
               ))}
             </div>
 
@@ -49,7 +50,6 @@ export default async function Home({ searchParams }: HomeProps) {
         ) : (
           <div className='home__error-container'>
             <h2 className='text-black text-xl font-bold'>Oops, no results</h2>
-            <p>{allCars?.message}</p>
           </div>
         )}
       </div>
